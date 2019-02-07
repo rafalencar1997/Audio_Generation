@@ -1,4 +1,5 @@
 .DS_Store
 .ipynb_checkpoints
+.cpython-36.pyc
 Pictures
 WavFiles
