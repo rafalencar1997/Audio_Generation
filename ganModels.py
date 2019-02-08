@@ -17,7 +17,7 @@ def generator(NoiseDim, OutputShape):
     model.add(BatchNormalization(momentum=0.9))
     model.add(Reshape((1000, 1)))
 
-    model.add(Conv1D(16, 50, padding='same'))
+    model.add(Conv1D(16, 20, padding='same'))
     model.add(ReLU())
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
@@ -27,14 +27,12 @@ def generator(NoiseDim, OutputShape):
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
 
-    model.add(Conv1D(64, 15, padding='same'))
+    model.add(Conv1D(64, 50, padding='same'))
     model.add(ReLU())
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
  
-    model.add(Conv1D(64, 11, padding='same'))
-    model.add(Activation('linear'))
-    #model.add(BatchNormalization(momentum=0.9))
+    model.add(Conv1D(64, 100, padding='same'))
     model.add(Dropout(rate=0.3))
     model.add(Flatten())
     return model
@@ -44,19 +42,19 @@ def discriminator(InputShape):
     model = Sequential()
     
     model.add(Reshape((InputShape, 1), input_shape=(InputShape,)))
-    model.add(Conv1D(32, 11, strides=7, padding='valid'))
-    model.add(Activation('linear'))
+    model.add(Conv1D(32, 100, strides=7, padding='valid'))
+    model.add(ReLU())
     model.add(AveragePooling1D(4))
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
 
-    model.add(Conv1D(16, 7, strides=5, padding='valid'))
-    model.add(Activation('linear'))
+    model.add(Conv1D(16, 50, strides=5, padding='valid'))
+    model.add(ReLU())
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
 
-    model.add(Conv1D(8, 5, strides=3, padding='valid'))
-    model.add(Activation('linear'))
+    model.add(Conv1D(8, 25, strides=3, padding='valid'))
+    model.add(ReLU())
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
 
@@ -78,18 +76,18 @@ def stacked_G_D(Generator, Discriminator):
 def encoder(InputShape, EncodeSize):
     model = Sequential()
     model.add(Reshape((InputShape, 1), input_shape=(InputShape,)))
-    model.add(Conv1D(32, 11, strides=7, padding='valid'))
-    model.add(Activation('linear'))
+    model.add(Conv1D(32, 100, strides=7, padding='valid'))
+    model.add(ReLU())
+    model.add(BatchNormalization(momentum=0.9))
+    model.add(Dropout(rate=0.1))
+    
+    model.add(Conv1D(16, 50, strides=5, padding='valid'))
+    model.add(ReLU())
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
 
-    model.add(Conv1D(16, 7, strides=5, padding='valid'))
-    model.add(Activation('linear'))
-    model.add(BatchNormalization(momentum=0.9))
-    model.add(Dropout(rate=0.1))
-
-    model.add(Conv1D(4, 5, strides=3, padding='valid'))
-    model.add(Activation('linear'))
+    model.add(Conv1D(8, 25, strides=3, padding='valid'))
+    model.add(ReLU())
     model.add(BatchNormalization(momentum=0.9))
     model.add(Dropout(rate=0.1))
     model.add(Flatten())

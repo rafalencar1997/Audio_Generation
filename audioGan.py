@@ -21,7 +21,7 @@ class AudioGAN:
         self.autoencoder = autoEncoder(self.enc, self.gen)  
         
         # Compile models
-        self.opt = Adam(lr = 0.0002, beta_1 = 0.5)
+        self.opt = Adam(lr = 0.0002, beta_1 = 0.9)
         self.gen.compile(loss = 'binary_crossentropy', optimizer = self.opt, metrics = ['accuracy'])
         self.dis.compile(loss = 'binary_crossentropy', optimizer = self.opt, metrics = ['accuracy'])
         self.autoencoder.compile(loss = 'mse',         optimizer = self.opt, metrics = ['accuracy'])

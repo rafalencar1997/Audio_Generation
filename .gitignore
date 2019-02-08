@@ -1,5 +1,5 @@
 .DS_Store
 .ipynb_checkpoints
-.cpython-36.pyc
+__pycache__
 Pictures
 WavFiles
